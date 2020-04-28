@@ -1,1 +1,137 @@
-Hello World
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8" />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://unpkg.com/dc@4/dist/style/dc.css"
+  />
+  <script src="https://unpkg.com/d3@5/dist/d3.js"></script>
+  <script src="https://unpkg.com/crossfilter2@1.5/crossfilter.js"></script>
+  <script src="https://unpkg.com/dc@4/dist/dc.js"></script>
+  <script src="https://rawgit.com/crossfilter/reductio/master/reductio.js"></script>
+  <script src="https://npmcdn.com/universe@latest/universe.js"></script>
+  <style>
+    .x-axis-label {
+      font-size:xx-small;
+    }
+    .flex-container {
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      justify-content: center;
+    }
+    .flex-item {
+      float: left;
+    }
+    .dc-chart g.row text {fill: black;}
+  </style>
+</head>
+
+<body>
+  <div class="flex-container">
+    
+    <div class="flex-item" >
+      <div class="dc-data-count">
+          KSI
+          <span>
+            <span class="filter-count"></span>
+             selected out of 
+            <span class="total-count"></span>
+             records | 
+            <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+          </span>
+      </div>
+    <div  id="police_force"><div>police_force</div></div>
+    <div id="local_authority_district"><div>local_authority_district</div></div>
+    <div id="local_authority_highway"><div>local_authority_highway</div></div>
+
+  </div>
+  <div class="flex-item" id="accident_severity"></div>
+  <div class="flex-item" id="number_of_vehicles"></div>
+  <div class="flex-item" id="number_of_casualties"></div>
+    <div class="flex-item" id="year"></div>
+    <div class="flex-item" id="month"></div>
+    <div class="flex-item" id="day_of_week"></div>
+    <div class="flex-item" id="hour"></div>
+    <div class="flex-item" id="vehicle_type"></div>
+    <div class="flex-item" id="vehicle_manoeuvre"></div>
+    <div class="flex-item" id="first_road_class"></div>
+    <div class="flex-item" id="road_type"></div>
+    <div class="flex-item" id="speed_limit"></div>
+    <div class="flex-item" id="junction_detail"></div>
+    <div class="flex-item" id="junction_control"></div>
+    <div class="flex-item" id="second_road_class"></div>
+    <div class="flex-item" id="pedestrian_crossing_human_control"></div>
+    <div class="flex-item" id="pedestrian_crossing_physical_facilities"></div>
+    <div class="flex-item" id="light_conditions"></div>
+    <div class="flex-item" id="weather_conditions"></div>
+    <div class="flex-item" id="road_surface_conditions"></div>
+    <div class="flex-item" id="special_conditions_at_site"></div>
+    <div class="flex-item" id="carriageway_hazards"></div>
+    <div class="flex-item" id="urban_or_rural_area"></div>
+    <div class="flex-item" id="did_police_officer_attend_scene_of_accident"></div>
+    <div class="flex-item" id="towing_and_articulation"></div>
+    <div class="flex-item" id="vehicle_location_restricted_lane"></div>
+    <div class="flex-item" id="junction_location"></div>
+    <div class="flex-item" id="skidding_and_overturning"></div>
+    <div class="flex-item" id="hit_object_in_carriageway"></div>
+    <div class="flex-item" id="vehicle_leaving_carriageway"></div>
+    <div class="flex-item" id="hit_object_off_carriageway"></div>
+    <div class="flex-item" id="first_point_of_impact"></div>
+    <div class="flex-item" id="was_vehicle_left_hand_drive"></div>
+    <div class="flex-item" id="journey_purpose_of_driver"></div>
+    <div class="flex-item" id="sex_of_driver"></div>
+    <div class="flex-item" id="age_band_of_driver"></div>
+    <div class="flex-item" id="propulsion_code"></div>
+    <div class="flex-item" id="driver_home_area_type"></div>
+
+
+    <div class="flex-item" id="engine_capacity_cc"></div>
+
+    <div class="flex-item" id="age_of_driver"></div>
+    <div class="flex-item" id="age_of_vehicle"></div>
+  </div>
+  
+
+  <!-- Script must run *after* set up of divs. -->
+  <script type="text/javascript" src="stats19.js"></script>
+
+  <!-- <script>
+    var chart = dc.barChart("#test");
+    d3.csv("single_car_pedestrian_collisions_2013-2018.csv").then(function(stats19) {
+
+      
+      stats19.forEach(function(x) {
+        x.engine_capacity_cc = +x.engine_capacity_cc;
+      });
+      
+
+      var ndx                 = crossfilter(stats19),
+          engineCcDimension        = ndx.dimension(function(d) {return +d.engine_capacity_cc}),
+          engineCcSumGroup       = engineCcDimension.group().reduceSum(function(d) {return +d.engine_capacity_cc}),
+
+
+      chart
+        .width(768)
+        .height(480)
+        .x(d3.scaleLinear().domain([1,7000]))
+        .brushOn(false)
+        .yAxisLabel("Total")
+        .xAxisLabel("Engine Size")
+        .dimension(engineCcDimension)
+        .group(engineCcSumGroup)
+        .on('renderlet', function(chart) {
+            chart.selectAll('rect').on("click", function(d) {
+                console.log("click!", d);
+            });
+        });
+        chart.render();
+    });
+
+  </script> -->
+</body>
