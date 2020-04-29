@@ -122,7 +122,9 @@ const translate = (key, value) => {
       return value;
   }
 }
-d3.csv("single_vehicle_pedestrian_collisions_2013-2018.csv").then(function (
+https://drive.google.com/uc?id=1cHihqGEe4Xw5F2n9E2_JX1FwemgvqeIV&export=download
+//single_vehicle_pedestrian_collisions_2013-2018.csv
+d3.csv("single_vehicle_pedestrian_collisions_2018.csv").then(function (
   stats19
 ) {
   stats19.forEach(function (x) {
