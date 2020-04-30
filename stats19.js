@@ -4,9 +4,9 @@
 
 // const engineccChart = new dc.BarChart("#enginecc_chart");
 const rowChartDimensions = [
-  "year", "month", "hour",
-  "Accident_Severity",
-  "Day_of_Week", "1st_Road_Class", "Road_Type", "Speed_limit", "Junction_Detail", "Junction_Control", "2nd_Road_Class"
+  "year", "month", "hour","Day_of_Week",
+  "Accident_Severity","Number_of_Vehicles","Number_of_Casualties",
+   "1st_Road_Class", "Road_Type", "Speed_limit", "Junction_Detail", "Junction_Control", "2nd_Road_Class"
   , "Pedestrian_Crossing-Human_Control", "Pedestrian_Crossing-Physical_Facilities", "Light_Conditions", "Weather_Conditions",
   "Road_Surface_Conditions", "Special_Conditions_at_Site", "Carriageway_Hazards", "Urban_or_Rural_Area", "Did_Police_Officer_Attend_Scene_of_Accident"
 ];
