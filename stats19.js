@@ -32,6 +32,7 @@ const translate = (key, value) => {
   return stats19lookup[key] ? stats19lookup[key][value] : value;
 
 }
+let addChartText = null;
 d3.csv("dftRoadSafetyData_Accidents_2018.csv")
   .then(accidents => d3.csv("dftRoadSafetyData_Casualties_2018.csv")
     .then(casualties => d3.csv("dftRoadSafetyData_Vehicles_2018.csv")
@@ -145,6 +146,7 @@ d3.csv("dftRoadSafetyData_Accidents_2018.csv")
           .groupAll(all);
 
         dc.renderAll();
+        addChartText = () => {
         rowCharts.forEach((rc, i) =>
           rc
             .svg()
@@ -176,4 +178,6 @@ d3.csv("dftRoadSafetyData_Accidents_2018.csv")
             .attr("y", rc.height() - 2)
             .text(vehiclesRowChartDimensions[i])
         );
+      };
+      addChartText();
       })));
