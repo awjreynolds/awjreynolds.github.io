@@ -4,209 +4,176 @@
 
 // const engineccChart = new dc.BarChart("#enginecc_chart");
 const rowChartDimensions = [
-  // "accident_index",
-  // "location_easting_osgr",
-  // "location_northing_osgr",
-  // "longitude",
-  // "latitude",
-  // "police_force",
-  "accident_severity",
-  "number_of_vehicles",
-  "number_of_casualties",
-  // "date",
-  "year",
-  "month",
-  "day_of_week",
-  "hour",
-  // "time",
-  // "local_authority_district",
-  // "local_authority_highway",
-  "first_road_class",
-  // "first_road_number",
-  "road_type",
-  "speed_limit",
-  "junction_detail",
-  "junction_control",
-  "second_road_class",
-  // "second_road_number",
-  "pedestrian_crossing_human_control",
-  "pedestrian_crossing_physical_facilities",
-  "light_conditions",
-  "weather_conditions",
-  "road_surface_conditions",
-  "special_conditions_at_site",
-  "carriageway_hazards",
-  "urban_or_rural_area",
-  "did_police_officer_attend_scene_of_accident",
-  // "lsoa_of_accident_location",
-  // "vehicle_reference",
-  "vehicle_type",
-  "towing_and_articulation",
-  "vehicle_manoeuvre",
-  "vehicle_location_restricted_lane",
-  "junction_location",
-  "skidding_and_overturning",
-  "hit_object_in_carriageway",
-  "vehicle_leaving_carriageway",
-  "hit_object_off_carriageway",
-  "first_point_of_impact",
-  "was_vehicle_left_hand_drive",
-  "journey_purpose_of_driver",
-  "sex_of_driver",
-  "age_band_of_driver",
-  "engine_capacity_cc",
-  "propulsion_code",
-  "age_of_vehicle",
-  // "driver_imd_decile",
-  "driver_home_area_type",
-  "age_of_driver",
-  // "vehicle_imd_decile"
+  "year", "month", "hour",
+  "Accident_Severity",
+  "Day_of_Week", "1st_Road_Class", "Road_Type", "Speed_limit", "Junction_Detail", "Junction_Control", "2nd_Road_Class"
+  , "Pedestrian_Crossing-Human_Control", "Pedestrian_Crossing-Physical_Facilities", "Light_Conditions", "Weather_Conditions",
+  "Road_Surface_Conditions", "Special_Conditions_at_Site", "Carriageway_Hazards", "Urban_or_Rural_Area", "Did_Police_Officer_Attend_Scene_of_Accident"
 ];
-const rowCharts = rowChartDimensions.map((d) => new dc.RowChart("#" + d));
-const police_force = new dc.SelectMenu ("#police_force");
-const local_authority_district = new dc.SelectMenu ("#local_authority_district");
-const local_authority_highway = new dc.SelectMenu ("#local_authority_highway");
+const casualtiesRowChartDimensions = [
+  "Casualty_Class", "Sex_of_Casualty", "Age_Band_of_Casualty", "Casualty_Severity", "Pedestrian_Location", "Pedestrian_Movement", "Car_Passenger", "Bus_or_Coach_Passenger", "Pedestrian_Road_Maintenance_Worker", "Casualty_Type", "Casualty_Home_Area_Type", "Casualty_IMD_Decile"
+];
 
+const vehiclesRowChartDimensions = [
+  "Vehicle_Type", "Towing_and_Articulation", "Vehicle_Manoeuvre", "Vehicle_Location-Restricted_Lane", "Junction_Location", "Skidding_and_Overturning", "Hit_Object_in_Carriageway", "Vehicle_Leaving_Carriageway", "Hit_Object_off_Carriageway", "1st_Point_of_Impact", "Was_Vehicle_Left_Hand_Drive", "Journey_Purpose_of_Driver", "Sex_of_Driver", "Age_Band_of_Driver", "Engine_Capacity_CC", "Propulsion_Code", "Driver_IMD_Decile", "Driver_Home_Area_Type", "Vehicle_IMD_Decile"
+
+]
+const rowCharts = rowChartDimensions.map((d) => new dc.RowChart("#Chart_" + d));
+
+const casualtiesRowCharts = casualtiesRowChartDimensions.map((d) => new dc.RowChart("#Chart_" + d));
+const vRowCharts = vehiclesRowChartDimensions.map((d) => new dc.RowChart("#Chart_" + d));
+const police_force = new dc.SelectMenu("#Police_Force");
+const local_authority_district = new dc.SelectMenu("#local_authority_district");
+const local_authority_highway = new dc.SelectMenu("#local_authority_highway");
 
 
 const translate = (key, value) => {
-  const monthNames = {
-    1: "January",
-    2: "February",
-    3: "March",
-    4: "April",
-    5: "May",
-    6: "June",
-    7: "July",
-    8: "August",
-    9: "September",
-    10: "October",
-    11: "November",
-    12: "December",
-  };
 
-  var ageband = {
-    1: "0 - 5",
-    2: "6 - 10",
-    3: "11 - 15",
-    4: "16 - 20",
-    5: "21 - 25",
-    6: "26 - 35",
-    7: "36 - 45",
-    8: "46 - 55",
-    9: "56 - 65",
-    10: "66 - 75",
-    11: "Over 75",
-    "-1": "Data missing or out of range",
-  };
+  return stats19lookup[key] ? stats19lookup[key][value] : value;
 
-  // code	label
-  // 1	Most deprived 10%
-  // 2	More deprived 10-20%
-  // 3	More deprived 20-30%
-  // 4	More deprived 30-40%
-  // 5	More deprived 40-50%
-  // 6	Less deprived 40-50%
-  // 7	Less deprived 30-40%
-  // 8	Less deprived 20-30%
-  // 9	Less deprived 10-20%
-  // 10	Least deprived 10%
-  // -1	Data missing or out of range
-
-  switch (key) {
-    case "month": 
-      return monthNames[value];
-    case "age_band_of_driver":
-      return ageband[value];
-    default:
-      return value;
-  }
 }
-https://drive.google.com/uc?id=1cHihqGEe4Xw5F2n9E2_JX1FwemgvqeIV&export=download
-//single_vehicle_pedestrian_collisions_2013-2018.csv
-d3.csv("single_vehicle_pedestrian_collisions_2018.csv").then(function (
-  stats19
-) {
-  stats19.forEach(function (x) {
-    // Round to nearest 100cc
-    x.engine_capacity_cc =
-      (Math.round(+x.engine_capacity_cc / 100) * 100);
-    var dateArr = x.date.split("-");
-    x.year = +dateArr[0];
-    x.month = +dateArr[1];
-    x.hour = x.time.split(":")[0];
-  });
-  const ndx = crossfilter(stats19);
-  // Declare chart dimensions and groups holders
-  const chartDimensions = {},
-    chartGroups = {};
-  rowChartDimensions.forEach((d, i) => {
-    chartDimensions[d] = ndx.dimension((dim) => dim[d]);
-    switch (d) {
-      case "accident_severity":
-        // KSI counts should reflect number of casualties not the record count.
-        chartGroups[d] = chartDimensions[d].group().reduceSum(di=> +di.number_of_casualties);
-        break;
-      default:
-        chartGroups[d] = chartDimensions[d].group()
-    }
-    chartGroups[d] = chartDimensions[d].group();
-    let height = chartGroups[d].size() * 15 < 200 ? 200 : chartGroups[d].size() * 15;
-    rowCharts[i]
-      .width(200)
-      .height(height)
-      .margins({ top: 20, left: 10, right: 10, bottom: 30 })
-      .dimension(chartDimensions[d])
-      .group(chartGroups[d])
-      // Title sets the row text
-      .label((e) => translate(d, e.key))
-      
-      .elasticX(true)
-      .xAxis()
-      .ticks(4);
-  });
+d3.csv("dftRoadSafetyData_Accidents_2018.csv")
+  .then(accidents => d3.csv("dftRoadSafetyData_Casualties_2018.csv")
+    .then(casualties => d3.csv("dftRoadSafetyData_Vehicles_2018.csv")
+      .then(vehicles => {
+        // Create the vehicleLookUp
+        const vehiclesHashmap = {};
+        vehicles.forEach(d => {
+          d["Engine_Capacity_CC"] = (Math.round(+d["Engine_Capacity_(CC)"] / 100) * 100);
+          d["Was_Vehicle_Left_Hand_Drive"] = d["Was_Vehicle_Left_Hand_Drive?"];
+          if (vehiclesHashmap[d.Accident_Index])
+            vehiclesHashmap[d.Accident_Index].push(d);
+          else
+            vehiclesHashmap[d.Accident_Index] = [d]
+        })
+        const casualtiesHashmap = {};
+        casualties.forEach(d => {
+          // Allocate vehicle that hit them
+          d["vehicle"] = vehiclesHashmap[d.Vehicle_Reference];
+          if (casualtiesHashmap[d.Accident_Index])
+            casualtiesHashmap[d.Accident_Index].push(d);
+          else
+            casualtiesHashmap[d.Accident_Index] = [d]
+        })
 
-  // var engineccDimension = ndx.dimension((d) => +d.engine_capacity_cc),
-  //   engineccSumGroup = engineccDimension.group();
+        accidents.forEach(d => {
+          d.casualties = casualtiesHashmap[d.Accident_Index] ? casualtiesHashmap[d.Accident_Index] : [];
+          d.vehicles = vehiclesHashmap[d.Accident_Index] ? vehiclesHashmap[d.Accident_Index] : [];
+        })
+        accidents.forEach(function (x) {
+          var dateArr = x.Date.split("/");
+          x.year = +dateArr[2];
+          x.month = +dateArr[1];
+          x.hour = x.Time.split(":")[0];
+        });
+        const ndx = crossfilter(accidents);
+        // Declare chart dimensions and groups holders
+        const chartDimensions = {},
+          chartGroups = {};
+        rowChartDimensions.forEach((d, i) => {
+          chartDimensions[d] = ndx.dimension((dim) => dim[d]);
 
-  // engineccChart
-  //   .width(600)
-  //   .height(200)
-  //   .margins({ top: 20, left: 10, right: 10, bottom: 20 })
-  //   .dimension(engineccDimension)
-  //   .group(engineccSumGroup)
-  //   .x(d3.scaleLinear().domain([0, 5]))
-  //   // .elasticX(true)
-  //   .elasticY(true)
-  //   .xAxis()
-  //   .ticks(10);
+          chartGroups[d] = chartDimensions[d].group();
+          let height = chartGroups[d].size() * 15 < 200 ? 200 : chartGroups[d].size() * 15;
+          rowCharts[i]
+            .width(200)
+            .height(height)
+            .margins({ top: 20, left: 10, right: 10, bottom: 30 })
+            .dimension(chartDimensions[d])
+            .group(chartGroups[d])
+            // Title sets the row text
+            .label((e) => translate(d, e.key))
 
-  const police_force_d = ndx.dimension( d => d.police_force),
-  police_force_g = police_force_d.group();
-  police_force.dimension(police_force_d).group(police_force_g);
+            .elasticX(true)
+            .xAxis()
+            .ticks(4);
+        });
+
+        casualtiesRowChartDimensions.forEach((d, i) => {
+          // Array based dimension set
+          chartDimensions[d] = ndx.dimension((dim) => dim.casualties.map(c => c[d]), true);
+          chartGroups[d] = chartDimensions[d].group();
+          let height = chartGroups[d].size() * 15 < 200 ? 200 : chartGroups[d].size() * 15;
+          casualtiesRowCharts[i]
+            .width(200)
+            .height(height)
+            .margins({ top: 20, left: 10, right: 10, bottom: 30 })
+            .dimension(chartDimensions[d])
+            .group(chartGroups[d])
+            // Title sets the row text
+            .label((e) => translate(d, e.key))
+
+            .elasticX(true)
+            .xAxis()
+            .ticks(4);
+        });
+        vehiclesRowChartDimensions.forEach((d, i) => {
+          // Array based dimension set
+          chartDimensions[d] = ndx.dimension((dim) => dim.vehicles.map(c => c[d]), true);
+          chartGroups[d] = chartDimensions[d].group();
+          let height = chartGroups[d].size() * 15 < 200 ? 200 : chartGroups[d].size() * 15;
+          vRowCharts[i]
+            .width(200)
+            .height(height)
+            .margins({ top: 20, left: 10, right: 10, bottom: 30 })
+            .dimension(chartDimensions[d])
+            .group(chartGroups[d])
+            // Title sets the row text
+            .label((e) => translate(d, e.key))
+
+            .elasticX(true)
+            .xAxis()
+            .ticks(4);
+        });
 
 
-  const local_authority_district_d = ndx.dimension( d => d.local_authority_district),
-  local_authority_district_g = local_authority_district_d.group();
-  local_authority_district.dimension(local_authority_district_d).group(local_authority_district_g);
-  const local_authority_highway_d = ndx.dimension( d => d.local_authority_highway),
-  local_authority_highway_g = local_authority_highway_d.group();
-  local_authority_highway.dimension(local_authority_highway_d).group(local_authority_highway_g);
+        const police_force_d = ndx.dimension(d => translate("Police_Force",d.Police_Force)),
+          police_force_g = police_force_d.group();
+        police_force.dimension(police_force_d).group(police_force_g);
 
-  const all = ndx.groupAll();
-  dc.dataCount(".dc-data-count")
-  .crossfilter(ndx)
-  .groupAll(all);
 
-  dc.renderAll();
-  rowCharts.forEach((rc, i) =>
-    rc
-      .svg()
-      .append("text")
-      .attr("class", "x-axis-label")
-      .attr("text-anchor", "middle")
-      .attr("x", rc.width() / 2)
-      .attr("y", rc.height()-2)
-      .text(rowChartDimensions[i])
-  );
-});
+        const local_authority_district_d = ndx.dimension(d => translate("Local_Authority_(District)", d["Local_Authority_(District)"])),
+          local_authority_district_g = local_authority_district_d.group();
+        local_authority_district.dimension(local_authority_district_d).group(local_authority_district_g);
+        const local_authority_highway_d = ndx.dimension(d => translate("Local_Authority_(Highway)", d["Local_Authority_(Highway)"])),
+          local_authority_highway_g = local_authority_highway_d.group();
+        local_authority_highway.dimension(local_authority_highway_d).group(local_authority_highway_g);
+
+        const all = ndx.groupAll();
+        dc.dataCount(".dc-data-count")
+          .crossfilter(ndx)
+          .groupAll(all);
+
+        dc.renderAll();
+        rowCharts.forEach((rc, i) =>
+          rc
+            .svg()
+            .append("text")
+            .attr("class", "x-axis-label")
+            .attr("text-anchor", "middle")
+            .attr("x", rc.width() / 2)
+            .attr("y", rc.height() - 2)
+            .text(rowChartDimensions[i])
+        );
+
+        casualtiesRowCharts.forEach((rc, i) =>
+          rc
+            .svg()
+            .append("text")
+            .attr("class", "x-axis-label")
+            .attr("text-anchor", "middle")
+            .attr("x", rc.width() / 2)
+            .attr("y", rc.height() - 2)
+            .text(casualtiesRowChartDimensions[i])
+        );
+        vRowCharts.forEach((rc, i) =>
+          rc
+            .svg()
+            .append("text")
+            .attr("class", "x-axis-label")
+            .attr("text-anchor", "middle")
+            .attr("x", rc.width() / 2)
+            .attr("y", rc.height() - 2)
+            .text(vehiclesRowChartDimensions[i])
+        );
+      })));
