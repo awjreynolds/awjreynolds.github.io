@@ -11,11 +11,13 @@ const rowChartDimensions = [
   "Road_Surface_Conditions", "Special_Conditions_at_Site", "Carriageway_Hazards", "Urban_or_Rural_Area", "Did_Police_Officer_Attend_Scene_of_Accident"
 ];
 const casualtiesRowChartDimensions = [
-  "Casualty_Class", "Sex_of_Casualty", "Age_Band_of_Casualty", "Casualty_Severity", "Pedestrian_Location", "Pedestrian_Movement", "Car_Passenger", "Bus_or_Coach_Passenger", "Pedestrian_Road_Maintenance_Worker", "Casualty_Type", "Casualty_Home_Area_Type", "Casualty_IMD_Decile"
+  "Casualty_Class", "Sex_of_Casualty", "Age_Band_of_Casualty", "Casualty_Severity", "Pedestrian_Location", "Pedestrian_Movement", "Car_Passenger", "Bus_or_Coach_Passenger", 
+  "Casualty_Type", "Casualty_Home_Area_Type", "Casualty_IMD_Decile"
 ];
 
 const vehiclesRowChartDimensions = [
-  "Vehicle_Type", "Towing_and_Articulation", "Vehicle_Manoeuvre", "Vehicle_Location-Restricted_Lane", "Junction_Location", "Skidding_and_Overturning", "Hit_Object_in_Carriageway", "Vehicle_Leaving_Carriageway", "Hit_Object_off_Carriageway", "1st_Point_of_Impact", "Was_Vehicle_Left_Hand_Drive", "Journey_Purpose_of_Driver", "Sex_of_Driver", "Age_Band_of_Driver", "Engine_Capacity_CC", "Propulsion_Code", "Driver_IMD_Decile", "Driver_Home_Area_Type", "Vehicle_IMD_Decile"
+  "Vehicle_Type", "Towing_and_Articulation"
+  , "Vehicle_Manoeuvre", "Vehicle_Location-Restricted_Lane", "Junction_Location", "Skidding_and_Overturning", "Hit_Object_in_Carriageway", "Vehicle_Leaving_Carriageway", "Hit_Object_off_Carriageway", "1st_Point_of_Impact", "Was_Vehicle_Left_Hand_Drive", "Journey_Purpose_of_Driver", "Sex_of_Driver", "Age_Band_of_Driver", "Engine_Capacity_CC", "Propulsion_Code", "Driver_IMD_Decile", "Driver_Home_Area_Type", "Vehicle_IMD_Decile"
 
 ]
 const rowCharts = rowChartDimensions.map((d) => new dc.RowChart("#Chart_" + d));
