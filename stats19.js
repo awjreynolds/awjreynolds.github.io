@@ -37,7 +37,7 @@ const translate = (key, value) => {
 let addChartText = null;
 const yearToUse = "2015";
 const maxRows = 15;
-const yearsToUse = window.location.href.indexOf("localhost") != -1 ? ["2013","2014","2015", "2016", "2017", "2018"] : ["2017", "2018"];
+const yearsToUse = window.location.href.indexOf("localhost") != -1 ? ["2013","2014","2015", "2016", "2017", "2018"] : ["2016", "2017", "2018"];
 // const yearsToUse = ["2013","2014","2015", "2016", "2017", "2018"];
 const accidentPromises = yearsToUse.map(y => d3.csv("dftRoadSafetyData_Accidents_" + y + ".csv"));
 const casualtyPromises = yearsToUse.map(y => d3.csv("dftRoadSafetyData_Casualties_" + y + ".csv"));
