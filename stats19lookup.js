@@ -67,7 +67,7 @@ const stats19lookup = {
         "6": "Friday",
         "7": "Saturday",
     },
-    "Local_Authority_(District)": {
+    "Local_Authority_District": {
         "1": "Westminster",
         "2": "Camden",
         "3": "Islington",
@@ -485,7 +485,7 @@ const stats19lookup = {
         "940": "West Lothian",
         "941": "Western Isles",
     },
-    "Local_Authority_(Highway)": {
+    "Local_Authority_Highway": {
         "S12000033": "Aberdeen City",
         "S12000034": "Aberdeenshire",
         "S12000041": "Angus",
@@ -910,7 +910,7 @@ const stats19lookup = {
     "3":"Offside",
     "4":"Nearside",
     "-1":"Unknown",},
-    "Was_Vehicle_Left_Hand_Drive?": {"1":"No",
+    "Was_Vehicle_Left_Hand_Drive": {"1":"No",
     "2":"Yes",
     "-1":"Unknown",},
     Journey_Purpose_of_Driver: {"1":"Journey as part of work",

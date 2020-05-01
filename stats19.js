@@ -5,7 +5,7 @@
 // const engineccChart = new dc.BarChart("#enginecc_chart");
 const rowChartDimensions = [
   "year", "month", "hour", "Day_of_Week",
-  "Accident_Severity", "Number_of_Vehicles", "Number_of_Casualties",
+  "Accident_Severity", "Police_Force", "Local_Authority_District", "Local_Authority_Highway",  "Number_of_Vehicles", "Number_of_Casualties",
   "1st_Road_Class", "Road_Type", "Speed_limit", "Junction_Detail", "Junction_Control", "2nd_Road_Class"
   , "Pedestrian_Crossing-Human_Control", "Pedestrian_Crossing-Physical_Facilities", "Light_Conditions", "Weather_Conditions",
   "Road_Surface_Conditions", "Special_Conditions_at_Site", "Carriageway_Hazards", "Urban_or_Rural_Area", "Did_Police_Officer_Attend_Scene_of_Accident"
@@ -24,9 +24,9 @@ const rowCharts = rowChartDimensions.map((d) => new dc.RowChart("#Chart_" + d));
 
 const casualtiesRowCharts = casualtiesRowChartDimensions.map((d) => new dc.RowChart("#Chart_" + d));
 const vRowCharts = vehiclesRowChartDimensions.map((d) => new dc.RowChart("#Chart_" + d));
-const police_force = new dc.SelectMenu("#Police_Force");
-const local_authority_district = new dc.SelectMenu("#local_authority_district");
-const local_authority_highway = new dc.SelectMenu("#local_authority_highway");
+const police_force = new dc.SelectMenu("#sPolice_Force");
+const local_authority_district = new dc.SelectMenu("#sLocal_authority_district");
+const local_authority_highway = new dc.SelectMenu("#sLocal_authority_highway");
 
 
 const translate = (key, value) => {
@@ -36,6 +36,7 @@ const translate = (key, value) => {
 }
 let addChartText = null;
 const yearToUse = "2015";
+const maxRows = 15;
 const yearsToUse = window.location.href.indexOf("localhost") != -1 ? ["2013","2014","2015", "2016", "2017", "2018"] : ["2017", "2018"];
 // const yearsToUse = ["2013","2014","2015", "2016", "2017", "2018"];
 const accidentPromises = yearsToUse.map(y => d3.csv("dftRoadSafetyData_Accidents_" + y + ".csv"));
@@ -47,6 +48,10 @@ Promise.all(accidentPromises).then(accidentsArr =>
       const accidents = [].concat.apply([], accidentsArr);
       const casualties = [].concat.apply([], casualtiesArr);
       const vehicles = [].concat.apply([], vehiclesArr);
+      accidents.forEach(d => {
+        d["Local_Authority_District"] = d["Local_Authority_(District)"];
+        d["Local_Authority_Highway"] = d["Local_Authority_(Highway)"];
+      });
       // Create the vehicleLookUp
       const vehiclesHashmap = {};
       vehicles.forEach(d => {
@@ -78,14 +83,25 @@ Promise.all(accidentPromises).then(accidentsArr =>
         x.hour = x.Time.split(":")[0];
       });
       const ndx = crossfilter(accidents);
+      const remove_empty_bins = (source_group) => {
+        return {
+            all: () => {
+                return source_group.all().filter(function(d) {
+                    return d.value != 0;
+                });
+            },
+            size: () => source_group.size()
+
+        };
+    }
       // Declare chart dimensions and groups holders
       const chartDimensions = {},
         chartGroups = {};
       rowChartDimensions.forEach((d, i) => {
         chartDimensions[d] = ndx.dimension((dim) => dim[d]);
 
-        chartGroups[d] = chartDimensions[d].group();
-        let height = chartGroups[d].size() * 15 < 200 ? 200 : chartGroups[d].size() * 15;
+        chartGroups[d] = remove_empty_bins(chartDimensions[d].group());
+        let height = chartGroups[d].size() * 15 < maxRows * 15 ? maxRows * 15 : (chartGroups[d].size() > maxRows ? maxRows : chartGroups[d].size()) * 15;
         rowCharts[i]
           .width(200)
           .height(height)
@@ -94,7 +110,7 @@ Promise.all(accidentPromises).then(accidentsArr =>
           .group(chartGroups[d])
           // Title sets the row text
           .label((e) => translate(d, e.key))
-
+          .cap(maxRows)
           .elasticX(true)
           .xAxis()
           .ticks(4);
@@ -103,8 +119,8 @@ Promise.all(accidentPromises).then(accidentsArr =>
       casualtiesRowChartDimensions.forEach((d, i) => {
         // Array based dimension set
         chartDimensions[d] = ndx.dimension((dim) => dim.casualties.map(c => c[d]), true);
-        chartGroups[d] = chartDimensions[d].group();
-        let height = chartGroups[d].size() * 15 < 200 ? 200 : chartGroups[d].size() * 15;
+        chartGroups[d] = remove_empty_bins(chartDimensions[d].group());
+        let height = chartGroups[d].size() * 15 < maxRows * 15 ? maxRows * 15 : (chartGroups[d].size() > maxRows ? maxRows : chartGroups[d].size()) * 15;
         casualtiesRowCharts[i]
           .width(200)
           .height(height)
@@ -113,7 +129,7 @@ Promise.all(accidentPromises).then(accidentsArr =>
           .group(chartGroups[d])
           // Title sets the row text
           .label((e) => translate(d, e.key))
-
+          .cap(maxRows)
           .elasticX(true)
           .xAxis()
           .ticks(4);
@@ -121,8 +137,8 @@ Promise.all(accidentPromises).then(accidentsArr =>
       vehiclesRowChartDimensions.forEach((d, i) => {
         // Array based dimension set
         chartDimensions[d] = ndx.dimension((dim) => dim.vehicles.map(c => c[d]), true);
-        chartGroups[d] = chartDimensions[d].group();
-        let height = chartGroups[d].size() * 15 < 200 ? 200 : chartGroups[d].size() * 15;
+        chartGroups[d] = remove_empty_bins(chartDimensions[d].group());
+        let height = chartGroups[d].size() * 15 < maxRows * 15 ? maxRows * 15 : (chartGroups[d].size() > maxRows ? maxRows : chartGroups[d].size()) * 15;
         vRowCharts[i]
           .width(200)
           .height(height)
@@ -131,7 +147,7 @@ Promise.all(accidentPromises).then(accidentsArr =>
           .group(chartGroups[d])
           // Title sets the row text
           .label((e) => translate(d, e.key))
-
+          .cap(maxRows)
           .elasticX(true)
           .xAxis()
           .ticks(4);
