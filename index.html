@@ -1,182 +1,134 @@
 <!DOCTYPE html>
-<head>
-  <meta charset="utf-8" />
-  <link
-    rel="stylesheet"
-    type="text/css"
-    href="https://unpkg.com/dc@4/dist/style/dc.css"
-  />
-  <script src="https://unpkg.com/d3@5/dist/d3.js"></script>
-  <script src="https://unpkg.com/crossfilter2@1.5/crossfilter.js"></script>
-  <script src="https://unpkg.com/dc@4/dist/dc.js"></script>
-  <script src="https://rawgit.com/crossfilter/reductio/master/reductio.js"></script>
-  <script src="https://npmcdn.com/universe@latest/universe.js"></script>
-  <style>
-    .x-axis-label {
-      font-size:xx-small;
-    }
-    .flex-container {
-      height: 100%;
-      width: 100%;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      justify-content: center;
-    }
-    .flex-item {
-      float: left;
-    }
-    .dc-chart g.row text {fill: black;}
-  </style>
-</head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Andrew Reynolds Projects</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f7f4;
+        --text: #1f2428;
+        --muted: #596168;
+        --rule: #d9d7cf;
+        --link: #0b5cad;
+        --panel: #ffffff;
+      }
 
-<body>
-  <div class="flex-container">
-    
-    <div class="flex-item" >
-      <div class="dc-data-count">
-          <div><strong>DfT Road Safety Data</strong></div>
-          <span>
-            <span class="filter-count"></span>
-             selected out of 
-            <span class="total-count"></span>
-             records | 
-            <a href="javascript:dc.filterAll(); dc.renderAll(); addChartText();">Reset All</a>
-          </span>
-        <div><a href="https://github.com/awjreynolds/awjreynolds.github.io">Github Repo</a> 
-          <a href="https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data">DfT Data Here</a></div>
-        <strong>After charts appear click on a chart row!</strong>
-      </div>
-      
-    <div  id="sPolice_Force"><div>police_force</div></div>
-    <div id="sLocal_authority_district"><div>local_authority_district</div></div>
-    <div id="sLocal_authority_highway"><div>local_authority_highway</div></div>
+      * {
+        box-sizing: border-box;
+      }
 
-  </div>
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
 
-  <div class="flex-item" id="Chart_Accident_Severity"></div>
-  <div class="flex-item" id="Chart_Police_Force"></div>
-  <div class="flex-item" id="Chart_Local_Authority_District"></div>
-  <div class="flex-item" id="Chart_Local_Authority_Highway"></div>
-  <div class="flex-item" id="Chart_Number_of_Vehicles"></div>
-  <div class="flex-item" id="Chart_Number_of_Casualties"></div>
-    <div class="flex-item" id="Chart_year"></div>
-    <div class="flex-item" id="Chart_month"></div>
-    <div class="flex-item" id="Chart_Day_of_Week"></div>
-    <div class="flex-item" id="Chart_hour"></div>
-    <div class="flex-item" id="Chart_vehicle_type"></div>
-    <div class="flex-item" id="Chart_vehicle_manoeuvre"></div>
-    <div class="flex-item" id="Chart_1st_Road_Class"></div>
-    <div class="flex-item" id="Chart_Road_Type"></div>
-    <div class="flex-item" id="Chart_Speed_limit"></div>
-    <div class="flex-item" id="Chart_Junction_Detail"></div>
-    <div class="flex-item" id="Chart_Junction_Control"></div>
-    <div class="flex-item" id="Chart_2nd_Road_Class"></div>
-    <div class="flex-item" id="Chart_Pedestrian_Crossing-Human_Control"></div>
-    <div class="flex-item" id="Chart_Pedestrian_Crossing-Physical_Facilities"></div>
-    <div class="flex-item" id="Chart_Light_Conditions"></div>
-    <div class="flex-item" id="Chart_Weather_Conditions"></div>
-    <div class="flex-item" id="Chart_Road_Surface_Conditions"></div>
-    <div class="flex-item" id="Chart_Special_Conditions_at_Site"></div>
-    <div class="flex-item" id="Chart_Carriageway_Hazards"></div>
-    <div class="flex-item" id="Chart_Urban_or_Rural_Area"></div>
-    <div class="flex-item" id="Chart_Did_Police_Officer_Attend_Scene_of_Accident"></div>
+      main {
+        width: min(960px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 56px 0;
+      }
 
-    <div class="flex-item" id="Chart_Casualty_Class"></div>
-    <div class="flex-item" id="Chart_Sex_of_Casualty"></div>
-    <div class="flex-item" id="Chart_Age_Band_of_Casualty"></div>
-    <div class="flex-item" id="Chart_Casualty_Severity"></div>
-    <div class="flex-item" id="Chart_Pedestrian_Location"></div>
-    <div class="flex-item" id="Chart_Pedestrian_Movement"></div>
-    <div class="flex-item" id="Chart_Car_Passenger"></div>
-    <div class="flex-item" id="Chart_Bus_or_Coach_Passenger"></div>
-    <div class="flex-item" id="Chart_Pedestrian_Road_Maintenance_Worker"></div>
-    <div class="flex-item" id="Chart_Casualty_Type"></div>
-    <div class="flex-item" id="Chart_Casualty_Home_Area_Type"></div>
-    <div class="flex-item" id="Chart_Casualty_IMD_Decile"></div>
+      header {
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 28px;
+      }
 
-    <div class="flex-item" id="Chart_Vehicle_Type"></div>
-    <div class="flex-item" id="Chart_Towing_and_Articulation"></div>
-    <div class="flex-item" id="Chart_Vehicle_Manoeuvre"></div>
-    <div class="flex-item" id="Chart_Vehicle_Location-Restricted_Lane"></div>
-    <div class="flex-item" id="Chart_Junction_Location"></div>
-    <div class="flex-item" id="Chart_Skidding_and_Overturning"></div>
-    <div class="flex-item" id="Chart_Vehicle_Leaving_Carriageway"></div>
-    <div class="flex-item" id="Chart_Hit_Object_off_Carriageway"></div>
-    <div class="flex-item" id="Chart_1st_Point_of_Impact"></div>
-    <div class="flex-item" id="Chart_Was_Vehicle_Left_Hand_Drive"></div>
-    <div class="flex-item" id="Chart_Journey_Purpose_of_Driver"></div>
-    <div class="flex-item" id="Chart_Sex_of_Driver"></div>
-    <div class="flex-item" id="Chart_Age_Band_of_Driver"></div>
-    <div class="flex-item" id="Chart_Propulsion_Code"></div>
-    <div class="flex-item" id="Chart_Driver_IMD_Decile"></div>
-    <div class="flex-item" id="Chart_Driver_Home_Area_Type"></div>
-    <div class="flex-item" id="Chart_Vehicle_IMD_Decile"></div>
-<!-- big! -->
-    <div class="flex-item" id="Chart_Engine_Capacity_CC"></div>
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
 
+      p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 680px;
+      }
 
+      .projects {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+        margin-top: 32px;
+      }
 
-    <!-- <div class="flex-item" id="towing_and_articulation"></div>
-    <div class="flex-item" id="vehicle_location_restricted_lane"></div>
-    <div class="flex-item" id="junction_location"></div>
-    <div class="flex-item" id="skidding_and_overturning"></div>
-    <div class="flex-item" id="hit_object_in_carriageway"></div>
-    <div class="flex-item" id="vehicle_leaving_carriageway"></div>
-    <div class="flex-item" id="hit_object_off_carriageway"></div>
-    <div class="flex-item" id="first_point_of_impact"></div>
-    <div class="flex-item" id="was_vehicle_left_hand_drive"></div>
-    <div class="flex-item" id="journey_purpose_of_driver"></div>
-    <div class="flex-item" id="sex_of_driver"></div>
-    <div class="flex-item" id="age_band_of_driver"></div>
-    <div class="flex-item" id="propulsion_code"></div>
-    <div class="flex-item" id="driver_home_area_type"></div> -->
+      .project {
+        min-height: 180px;
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 20px;
+      }
 
+      .project h2 {
+        margin: 0 0 10px;
+        font-size: 1.1rem;
+        letter-spacing: 0;
+      }
 
-    <!-- <div class="flex-item" id="engine_capacity_cc"></div>
+      .project p {
+        font-size: 0.95rem;
+      }
 
-    <div class="flex-item" id="age_of_driver"></div>
-    <div class="flex-item" id="age_of_vehicle"></div> -->
-  </div>
-  
+      .meta {
+        display: inline-block;
+        margin-bottom: 14px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
 
-  <!-- Script must run *after* set up of divs. -->
-  <script type="text/javascript" src="stats19lookup.js"></script>
-  <script type="text/javascript" src="stats19.js"></script>
+      .actions {
+        margin-top: 18px;
+      }
 
-  <!-- <script>
-    var chart = dc.barChart("#test");
-    d3.csv("single_car_pedestrian_collisions_2013-2018.csv").then(function(stats19) {
+      a {
+        color: var(--link);
+        font-weight: 650;
+        text-decoration-thickness: 0.08em;
+        text-underline-offset: 0.18em;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Andrew Reynolds Projects</h1>
+        <p>
+          A small index for public data and analysis projects hosted with GitHub Pages.
+        </p>
+      </header>
 
-      
-      stats19.forEach(function(x) {
-        x.engine_capacity_cc = +x.engine_capacity_cc;
-      });
-      
+      <section class="projects" aria-label="Projects">
+        <article class="project">
+          <span class="meta">Archived spike</span>
+          <h2>DfT Road Safety Data Explorer</h2>
+          <p>
+            The original STATS19 crossfilter dashboard experiment using DfT road safety
+            collision, casualty, and vehicle CSVs.
+          </p>
+          <div class="actions">
+            <a href="stats19-spike/">Open directory</a>
+          </div>
+        </article>
 
-      var ndx                 = crossfilter(stats19),
-          engineCcDimension        = ndx.dimension(function(d) {return +d.engine_capacity_cc}),
-          engineCcSumGroup       = engineCcDimension.group().reduceSum(function(d) {return +d.engine_capacity_cc}),
-
-
-      chart
-        .width(768)
-        .height(480)
-        .x(d3.scaleLinear().domain([1,7000]))
-        .brushOn(false)
-        .yAxisLabel("Total")
-        .xAxisLabel("Engine Size")
-        .dimension(engineCcDimension)
-        .group(engineCcSumGroup)
-        .on('renderlet', function(chart) {
-            chart.selectAll('rect').on("click", function(d) {
-                console.log("click!", d);
-            });
-        });
-        chart.render();
-    });
-
-  </script> -->
-</body>
+        <article class="project">
+          <span class="meta">Planned</span>
+          <h2>Pedestrian Danger Patterns</h2>
+          <p>
+            A future dashboard for pooled STATS19 pedestrian casualty patterns, focused
+            on KSI harm, native collision context, and clearly labelled vehicle-shape
+            signals.
+          </p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
