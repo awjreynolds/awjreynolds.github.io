@@ -3,163 +3,498 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Adam Reynolds Projects</title>
+    <meta
+      name="description"
+      content="Public data, transport-planning and analysis projects by Adam Reynolds."
+    />
+    <title>Adam Reynolds — Public Projects</title>
     <style>
       :root {
         color-scheme: light;
-        --bg: #f7f7f4;
-        --text: #1f2428;
-        --muted: #596168;
-        --rule: #d9d7cf;
-        --link: #0b5cad;
-        --panel: #ffffff;
+        --ink: #17212b;
+        --muted: #52606d;
+        --navy: #102a43;
+        --navy-light: #243b53;
+        --teal: #00796b;
+        --teal-dark: #005e54;
+        --lime: #c7f36b;
+        --paper: #f4f6f3;
+        --white: #ffffff;
+        --line: #d7ded8;
+        --shadow: 0 18px 45px rgba(16, 42, 67, 0.09);
       }
 
       * {
         box-sizing: border-box;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
         margin: 0;
-        background: var(--bg);
-        color: var(--text);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        line-height: 1.5;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.55;
       }
 
-      main {
-        width: min(960px, calc(100% - 32px));
+      a {
+        color: inherit;
+      }
+
+      a:focus-visible {
+        outline: 3px solid var(--lime);
+        outline-offset: 4px;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        background: var(--navy);
+        color: var(--white);
+      }
+
+      .hero::after {
+        position: absolute;
+        right: -8rem;
+        bottom: -15rem;
+        width: 34rem;
+        height: 34rem;
+        border: 5rem solid rgba(199, 243, 107, 0.08);
+        border-radius: 50%;
+        content: "";
+      }
+
+      .wrap {
+        position: relative;
+        z-index: 1;
+        width: min(1120px, calc(100% - 40px));
         margin: 0 auto;
-        padding: 56px 0;
       }
 
-      header {
-        border-bottom: 1px solid var(--rule);
-        padding-bottom: 28px;
+      .hero .wrap {
+        padding: 72px 0 88px;
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 20px;
+        color: var(--lime);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 28px;
+        height: 3px;
+        background: currentColor;
+        content: "";
       }
 
       h1 {
-        margin: 0 0 12px;
-        font-size: clamp(2rem, 5vw, 3.5rem);
-        line-height: 1.05;
-        letter-spacing: 0;
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(2.6rem, 7vw, 5.4rem);
+        font-weight: 760;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
+      }
+
+      .intro {
+        max-width: 650px;
+        margin: 24px 0 0;
+        color: #d9e2ec;
+        font-size: clamp(1.05rem, 2vw, 1.25rem);
+      }
+
+      main {
+        padding: 0 0 72px;
+      }
+
+      .featured {
+        margin-top: -42px;
+        border-radius: 18px;
+        background: var(--white);
+        box-shadow: var(--shadow);
+      }
+
+      .featured-copy {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.75fr);
+        gap: 42px;
+        padding: 42px;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 15px;
+        color: var(--teal-dark);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .status::before {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--teal);
+        box-shadow: 0 0 0 5px rgba(0, 121, 107, 0.12);
+        content: "";
+      }
+
+      h2,
+      h3 {
+        color: var(--navy);
+        line-height: 1.15;
+      }
+
+      h2 {
+        margin: 0 0 14px;
+        font-size: clamp(1.8rem, 4vw, 2.7rem);
+        letter-spacing: -0.03em;
+      }
+
+      h3 {
+        margin: 0 0 10px;
+        font-size: 1.15rem;
       }
 
       p {
         margin: 0;
         color: var(--muted);
+      }
+
+      .featured-description {
         max-width: 680px;
+        font-size: 1.05rem;
+      }
+
+      .notice {
+        align-self: start;
+        border-left: 4px solid var(--lime);
+        border-radius: 0 10px 10px 0;
+        background: #f3f9e8;
+        padding: 18px 20px;
+      }
+
+      .notice strong {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--navy);
+      }
+
+      .notice p {
+        font-size: 0.92rem;
+      }
+
+      .primary-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 24px;
+        border-radius: 8px;
+        background: var(--teal);
+        color: var(--white);
+        padding: 12px 18px;
+        font-weight: 750;
+        text-decoration: none;
+        transition: background 150ms ease, transform 150ms ease;
+      }
+
+      .primary-link::after,
+      .deployment::after,
+      .project-link::after {
+        content: "→";
+      }
+
+      .primary-link:hover {
+        background: var(--teal-dark);
+        transform: translateY(-1px);
+      }
+
+      .deployments {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid var(--line);
+      }
+
+      .deployment {
+        position: relative;
+        display: flex;
+        min-height: 110px;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 22px 24px;
+        color: var(--navy);
+        font-weight: 760;
+        text-decoration: none;
+        transition: background 150ms ease, color 150ms ease;
+      }
+
+      .deployment + .deployment {
+        border-left: 1px solid var(--line);
+      }
+
+      .deployment::after {
+        align-self: flex-end;
+        color: var(--teal);
+        font-size: 1.2rem;
+      }
+
+      .deployment:hover {
+        background: #f3f9e8;
+        color: var(--teal-dark);
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin: 64px 0 22px;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: clamp(1.55rem, 3vw, 2rem);
+      }
+
+      .section-heading p {
+        max-width: 470px;
+        text-align: right;
       }
 
       .projects {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 18px;
-        margin-top: 32px;
       }
 
       .project {
-        min-height: 180px;
-        border: 1px solid var(--rule);
-        border-radius: 8px;
-        background: var(--panel);
-        padding: 20px;
+        display: flex;
+        min-height: 245px;
+        flex-direction: column;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--white);
+        padding: 26px;
       }
 
-      .project h2 {
-        margin: 0 0 10px;
-        font-size: 1.1rem;
-        letter-spacing: 0;
+      .project-meta {
+        margin-bottom: 28px;
+        color: var(--teal-dark);
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
 
       .project p {
-        font-size: 0.95rem;
+        font-size: 0.94rem;
       }
 
-      .meta {
-        display: inline-block;
-        margin-bottom: 14px;
-        color: var(--muted);
-        font-size: 0.82rem;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-      }
-
-      .actions {
-        margin-top: 18px;
-      }
-
-      a {
-        color: var(--link);
-        font-weight: 650;
+      .project-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+        padding-top: 24px;
+        color: var(--teal-dark);
+        font-weight: 750;
         text-decoration-thickness: 0.08em;
         text-underline-offset: 0.18em;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 26px 0 34px;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      @media (max-width: 800px) {
+        .hero .wrap {
+          padding: 54px 0 74px;
+        }
+
+        .featured-copy {
+          grid-template-columns: 1fr;
+          gap: 28px;
+          padding: 30px;
+        }
+
+        .deployments {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .deployment:nth-child(3) {
+          border-top: 1px solid var(--line);
+          border-left: 0;
+        }
+
+        .deployment:nth-child(4) {
+          border-top: 1px solid var(--line);
+        }
+
+        .projects {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .wrap {
+          width: min(100% - 28px, 1120px);
+        }
+
+        .featured {
+          border-radius: 12px;
+        }
+
+        .featured-copy {
+          padding: 24px;
+        }
+
+        .deployments {
+          grid-template-columns: 1fr;
+        }
+
+        .deployment + .deployment {
+          border-top: 1px solid var(--line);
+          border-left: 0;
+        }
+
+        .section-heading {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .section-heading p {
+          text-align: left;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .primary-link,
+        .deployment {
+          transition: none;
+        }
       }
     </style>
   </head>
   <body>
-    <main>
-      <header>
-        <h1>Adam Reynolds Projects</h1>
-        <p>
-          A small index for public data and analysis projects hosted with GitHub Pages.
+    <header class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Public projects</p>
+        <h1>Data, evidence and better transport decisions.</h1>
+        <p class="intro">
+          Open prototypes exploring how public data and agentic tools can support
+          transparent, reproducible network planning.
         </p>
-      </header>
+      </div>
+    </header>
 
-      <section class="projects" aria-label="Projects">
-        <article class="project">
-          <span class="meta">Active regional catalogue</span>
-          <h2>SATN Deployment Catalogue</h2>
-          <p>
-            An active regional SATN compiler and deployment catalogue for Bath and
-            North East Somerset and the four-authority West of England (WECA)
-            deployment: B&amp;NES, Bristol, North Somerset, and South Gloucestershire.
-            It connects cross-boundary strategic active-travel routes with the evidence
-            and review maps behind each deployment.
-          </p>
-          <div class="actions">
-            <a href="banes-satn/">Browse deployment catalogue</a>
-            &nbsp;&middot;&nbsp;
-            <a href="banes-satn/deployments/weca/">Open West of England deployment</a>
-            &nbsp;&middot;&nbsp;
-            <a href="banes-satn/deployments/banes/">Open B&amp;NES deployment</a>
+    <main class="wrap">
+      <section class="featured" aria-labelledby="compiler-title">
+        <div class="featured-copy">
+          <div>
+            <span class="status">Active proof of concept</span>
+            <h2 id="compiler-title">Agentic SATN Compiler</h2>
+            <p class="featured-description">
+              An agentic AI network compiler that turns governed evidence into
+              reproducible Strategic Active Travel Network baselines and interactive
+              review maps. The same compiler approach could be applied to other
+              strategic networks, including mass transit.
+            </p>
+            <a class="primary-link" href="agentic-satn-compiler/">
+              Browse deployment catalogue
+            </a>
           </div>
-        </article>
+          <aside class="notice" aria-label="Project status">
+            <strong>Evidence for review, not an adopted plan</strong>
+            <p>
+              Each deployment is an analytical POC. It exposes the generated network,
+              supporting evidence and review tools so professional judgement remains
+              explicit.
+            </p>
+          </aside>
+        </div>
 
-        <article class="project">
-          <span class="meta">Archived spike</span>
-          <h2>DfT Road Safety Data Explorer</h2>
-          <p>
-            The original STATS19 crossfilter dashboard experiment using DfT road safety
-            collision, casualty, and vehicle CSVs.
-          </p>
-          <div class="actions">
-            <a href="stats19-spike/">Open directory</a>
-          </div>
-        </article>
+        <nav class="deployments" aria-label="Agentic SATN Compiler deployments">
+          <a class="deployment" href="agentic-satn-compiler/deployments/banes/">
+            Bath &amp; North East Somerset
+          </a>
+          <a class="deployment" href="agentic-satn-compiler/deployments/weca/">
+            West of England
+          </a>
+          <a class="deployment" href="agentic-satn-compiler/deployments/oxfordshire/">
+            Oxfordshire
+          </a>
+          <a
+            class="deployment"
+            href="agentic-satn-compiler/deployments/torbay-south-devon/"
+          >
+            Torbay &amp; South Devon
+          </a>
+        </nav>
+      </section>
 
-        <article class="project">
-          <span class="meta">Independent prototype</span>
-          <h2>ATM Prioritisation Prototype</h2>
-          <p>
-            A separate proof-of-concept project for route prioritisation, modal
-            shift potential, and simplified route status presentation.
-          </p>
-          <div class="actions">
-            <a href="atm-prioritisation/">Open project</a>
-          </div>
-        </article>
+      <section aria-labelledby="other-projects">
+        <div class="section-heading">
+          <h2 id="other-projects">Other projects</h2>
+          <p>Earlier experiments and independent prototypes in public-data analysis.</p>
+        </div>
 
-        <article class="project">
-          <span class="meta">Planned</span>
-          <h2>Pedestrian Danger Patterns</h2>
-          <p>
-            A future dashboard for pooled STATS19 pedestrian casualty patterns, focused
-            on KSI harm, native collision context, and clearly labelled vehicle-shape
-            signals.
-          </p>
-        </article>
+        <div class="projects">
+          <article class="project">
+            <span class="project-meta">Archived spike</span>
+            <h3>DfT Road Safety Data Explorer</h3>
+            <p>
+              The original STATS19 crossfilter experiment using DfT road-safety
+              collision, casualty and vehicle data.
+            </p>
+            <a class="project-link" href="stats19-spike/">Open directory</a>
+          </article>
+
+          <article class="project">
+            <span class="project-meta">Independent prototype</span>
+            <h3>ATM Prioritisation</h3>
+            <p>
+              A proof of concept for route prioritisation, modal-shift potential and
+              simplified route-status presentation.
+            </p>
+            <a class="project-link" href="atm-prioritisation/">Open project</a>
+          </article>
+
+          <article class="project">
+            <span class="project-meta">Planned</span>
+            <h3>Pedestrian Danger Patterns</h3>
+            <p>
+              A future dashboard for pooled STATS19 pedestrian-casualty patterns,
+              focused on KSI harm and clearly labelled vehicle-shape signals.
+            </p>
+          </article>
+        </div>
       </section>
     </main>
+
+    <footer>
+      <div class="wrap">Open analytical prototypes by Adam Reynolds.</div>
+    </footer>
   </body>
 </html>
