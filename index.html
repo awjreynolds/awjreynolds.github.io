@@ -202,7 +202,6 @@
         display: inline-flex;
         align-items: center;
         gap: 12px;
-        margin-top: 24px;
         border-radius: 8px;
         background: var(--teal);
         color: var(--white);
@@ -212,9 +211,65 @@
         transition: background 150ms ease, transform 150ms ease;
       }
 
+      .featured-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .primary-link,
+      .krn-link {
+        min-height: 48px;
+      }
+
+      .krn-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f3f9e8;
+        color: var(--navy);
+        padding: 8px 14px;
+        text-decoration: none;
+        transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+      }
+
+      .krn-link:hover {
+        border-color: var(--teal);
+        background: #e8f4d4;
+        transform: translateY(-1px);
+      }
+
+      .krn-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+      }
+
+      .krn-copy strong {
+        color: var(--navy);
+        font-size: 0.9rem;
+      }
+
+      .krn-copy span {
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      .krn-action {
+        color: var(--teal-dark);
+        font-size: 0.86rem;
+        font-weight: 750;
+        white-space: nowrap;
+      }
+
       .primary-link::after,
       .deployment::after,
-      .project-link::after {
+      .project-link::after,
+      .krn-action::after {
         content: "→";
       }
 
@@ -225,7 +280,7 @@
 
       .deployments {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         border-top: 1px solid var(--line);
       }
 
@@ -339,15 +394,6 @@
           grid-template-columns: repeat(2, 1fr);
         }
 
-        .deployment:nth-child(3) {
-          border-top: 1px solid var(--line);
-          border-left: 0;
-        }
-
-        .deployment:nth-child(4) {
-          border-top: 1px solid var(--line);
-        }
-
         .projects {
           grid-template-columns: 1fr;
         }
@@ -364,6 +410,13 @@
 
         .featured-copy {
           padding: 24px;
+        }
+
+        .krn-link {
+          width: 100%;
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 4px;
         }
 
         .deployments {
@@ -391,6 +444,7 @@
         }
 
         .primary-link,
+        .krn-link,
         .deployment {
           transition: none;
         }
@@ -421,9 +475,21 @@
               review maps. The same compiler approach could be applied to other
               strategic networks, including mass transit.
             </p>
-            <a class="primary-link" href="agentic-satn-compiler/">
-              Browse deployment catalogue
-            </a>
+            <div class="featured-actions">
+              <a class="primary-link" href="agentic-satn-compiler/">
+                Browse deployment catalogue
+              </a>
+              <a
+                class="krn-link"
+                href="https://awjreynolds.github.io/agentic-krn-compiler/"
+              >
+                <span class="krn-copy">
+                  <strong>Key Route Network Compiler</strong>
+                  <span>Dated, evidence-backed road network</span>
+                </span>
+                <span class="krn-action">Open KRN map</span>
+              </a>
+            </div>
           </div>
           <aside class="notice" aria-label="Project status">
             <strong>Evidence for review, not an adopted plan</strong>
@@ -441,15 +507,6 @@
           </a>
           <a class="deployment" href="agentic-satn-compiler/deployments/weca/">
             West of England
-          </a>
-          <a class="deployment" href="agentic-satn-compiler/deployments/oxfordshire/">
-            Oxfordshire
-          </a>
-          <a
-            class="deployment"
-            href="agentic-satn-compiler/deployments/torbay-south-devon/"
-          >
-            Torbay &amp; South Devon
           </a>
         </nav>
       </section>
